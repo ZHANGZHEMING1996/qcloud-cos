@@ -1,6 +1,7 @@
 import React from 'react'
 import './main.css'
 import FileTableContainer from '../containers/FileTableContainer'
+import DirMenuContainer from '../containers/DirMenuContainer'
 import styled from 'styled-components'
 import { Layout } from 'antd'
 const { Header, Sider, Content } = Layout
@@ -28,6 +29,7 @@ const LogoWrap = styled.div`
       }}
     >
       <LogoWrap />
+      <DirMenuContainer />
     </Sider>
     <Layout>
       <Header style={{ height: `${headerHeight}px` }}>

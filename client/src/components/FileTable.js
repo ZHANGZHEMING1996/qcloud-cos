@@ -7,7 +7,7 @@ const tableColumns = [
     title: '文件名',
     dataIndex: 'Key',
     render: (text) => {
-      return <span>{text}</span>
+      return <span>{text.split('/')[1]}</span>
     }
   },
   {
@@ -18,10 +18,10 @@ const tableColumns = [
     }
   }
 ]
-export default ({ onlyFiles }) => (
+export default ({ currentDirFiles }) => (
   <div>
     <Table columns={tableColumns}
-      dataSource={onlyFiles}
+      dataSource={currentDirFiles}
       rowKey={item => item.ETag}
       pagination={false}
       />
