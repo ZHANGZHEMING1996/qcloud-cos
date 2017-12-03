@@ -3,6 +3,7 @@ import './main.css'
 import FileTableContainer from '../containers/FileTableContainer'
 import DirMenuContainer from '../containers/DirMenuContainer'
 import UploaderContainer from '../containers/UploaderContainer'
+import DirCreatorContainer from '../containers/DirCreatorContainer'
 import styled from 'styled-components'
 import { Layout } from 'antd'
 const { Header, Sider, Content } = Layout
@@ -31,6 +32,7 @@ const LogoWrap = styled.div`
     >
       <LogoWrap />
       <DirMenuContainer />
+      <DirCreatorContainer />
     </Sider>
     <Layout>
       <Header style={{ height: `${headerHeight}px` }}>
