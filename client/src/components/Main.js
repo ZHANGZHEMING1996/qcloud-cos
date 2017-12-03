@@ -2,6 +2,7 @@ import React from 'react'
 import './main.css'
 import FileTableContainer from '../containers/FileTableContainer'
 import DirMenuContainer from '../containers/DirMenuContainer'
+import UploaderContainer from '../components/UploaderContainer.js'
 import styled from 'styled-components'
 import { Layout } from 'antd'
 const { Header, Sider, Content } = Layout
@@ -35,6 +36,9 @@ const LogoWrap = styled.div`
       <Header style={{ height: `${headerHeight}px` }}>
       </Header>
       <Content>
+      <Wrap>
+      </Wrap>
+       <UploaderContainer />
       <Wrap>
         <FileTableContainer />
       </Wrap>

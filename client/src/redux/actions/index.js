@@ -1,10 +1,11 @@
 import axios from 'axios'
+import Settings from '../../settings'
 
 const getFirstDir = allFiles => allFiles[0].Key.split('/')[0]
 
 export const loadAllFiles = () => {
   return dispatch => {
-    axios.get('http://localhost:3008/bucket').then(
+    axios.get(Settings.bucketUrl).then(
       res => {
         const allFiles =res.data.Contents
         dispatch({type:'LOAD_ALL_FILES',allFiles})
