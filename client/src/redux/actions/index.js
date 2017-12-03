@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Settings from '../../settings'
 import { ACTIVE, EXCEPTION, SUCCESS } from '../../constants/ProgressStatus'
+import cos from '../../lib/qcloud'
 
 const getFirstDir = allFiles => allFiles[0].Key.split('/')[0]
 
@@ -70,5 +71,29 @@ export const setProgressPercent = (percent, file) => {
       percent,
       file
     })
+  }
+}
+
+export const removeFile = (record) => {
+  const params = {
+    Bucket: Settings.Bucket,
+    Region: Settings.Region,
+    Key : record.Key
+  }
+  const key = record.Key
+
+  return dispatch => {
+    return new Promise(
+      (resolve, reject) => {
+        cos.deleteObject(params, (err, data) => {
+          if(err) {
+            reject(key)
+         } else {
+            dispatch({ type: 'REMOVE_FILE',key})
+            resolve(key)
+          }
+        })
+      }
+    )
   }
 }

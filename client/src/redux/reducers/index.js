@@ -23,6 +23,13 @@ const rootReducer = (state = initState, action) => {
         ...state,
         allFiles: [...state.allFiles, action.newFile]
       }
+      case 'REMOVE_FILE':
+      return {
+        ...state,
+        allFiles: state.allFiles.filter(
+          t => t.Key !== action.key
+        )
+      }
     default:
       return {
         ...state,
@@ -51,7 +58,7 @@ export const getDirNames = state => {
 export const getCurrentDir = state => state.currentDir
 
 export const getProgressBars = state => {
-  
+
     return state.progressBars.filter(
     t => t.currentDir === state.currentDir
   )
