@@ -15,6 +15,11 @@ const rootReducer = (state = initState, action) => {
         ...state,
         currentDir: action.dir
       }
+      case 'ADD_FILE':
+      return {
+        ...state,
+        allFiles: [...state.allFiles, action.newFile]
+      }
     default:
       return state
   }

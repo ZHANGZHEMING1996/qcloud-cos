@@ -4,15 +4,17 @@ import cos from '../lib/qcloud'
 import Uploader from '../components/Uploader'
 import { getCurrentDir } from '../redux/reducers'
 import { connect } from 'react-redux'
+import { addFile } from '../redux/actions'
 
 class UploaderContainer extends Component {
   handleChange = (info) => {
-    const { currentDir } = this.props
+    const { currentDir } = this.props    
     const file = info.file.originFileObj
+    const key = `${currentDir}/${file.name}`
     const params = {
       Bucket: Settings.Bucket,
       Region: Settings.Region,
-      Key: `${currentDir}/${file.name}`,
+      Key: key,
       Body: file
     }
 
@@ -24,6 +26,7 @@ class UploaderContainer extends Component {
             console.log(err)
           }else {
             resolve(file.name)
+            this.props.addFile(key)
             console.log(data)
          }
         })
@@ -44,4 +47,4 @@ const mapStateToProps = state => ({
   currentDir: getCurrentDir(state)
 })
 
-export default connect(mapStateToProps)(UploaderContainer)
+export default connect(mapStateToProps, { addFile })(UploaderContainer)
