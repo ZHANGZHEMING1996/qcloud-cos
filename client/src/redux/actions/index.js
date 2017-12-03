@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Settings from '../../settings'
+import { ACTIVE, EXCEPTION, SUCCESS } from '../../constants/ProgressStatus'
 
 const getFirstDir = allFiles => allFiles[0].Key.split('/')[0]
 
@@ -33,12 +34,13 @@ export const addFile = (filePath) => {
   }
 }
 
-export const addProgressBar = file => {
+export const addProgressBar = (file, currentDir) => {
   const progressBar = {
     percent: 0,
     name: file.name,
-    status: 'normal',
+    status: ACTIVE,
     uid: file.uid,
+    currentDir
   }
   return dispatch => {
     dispatch({
@@ -48,8 +50,21 @@ export const addProgressBar = file => {
   }
 }
 
+const setProgressStatus = (status, file) => ({
+  type: 'SET_PROGRESS_STATUS',
+  status,
+  file
+})
+
+export const handleException = file => {
+  return dispatch => {
+    dispatch(setProgressStatus(EXCEPTION, file))
+  }
+}
+
 export const setProgressPercent = (percent, file) => {
   return dispatch => {
+    if (percent === 100) dispatch(setProgressStatus(SUCCESS, file))
     dispatch({
       type: 'SET_PROGRESS_PERCENT',
       percent,

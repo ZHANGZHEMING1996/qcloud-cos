@@ -10,6 +10,14 @@ const progressBars = (state, action) => {
         }
         return t
       })
+      case 'SET_PROGRESS_STATUS':
+        return state.map(t => {
+          if (t.uid === action.file.uid) {
+            const status =  action.status
+            return { ...t, status }
+          }
+         return t
+        })
     default:
       return state
   }

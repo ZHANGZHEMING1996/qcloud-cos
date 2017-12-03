@@ -50,7 +50,13 @@ export const getDirNames = state => {
 
 export const getCurrentDir = state => state.currentDir
 
-export const getProgressBars = state => state.progressBars
+export const getProgressBars = state => {
+  
+    return state.progressBars.filter(
+    t => t.currentDir === state.currentDir
+  )
+
+}
 
 export const getCurrentDirFiles = state => {
   return getOnlyFiles(state).filter(

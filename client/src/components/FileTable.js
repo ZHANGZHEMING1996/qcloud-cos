@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table } from 'antd'
+import { Table, Button } from 'antd'
 import moment from 'moment'
 
 const tableColumns = [
@@ -15,6 +15,16 @@ const tableColumns = [
     dataIndex: 'LastModified',
     render: (text) => {
       return <span>{moment(text).format('YYYY-MM-DD kk:mm:ss')}</span>
+    }
+  },
+    {
+    title: '操作',
+    render: record => {
+      return (
+        <Button>
+         删除
+        </Button>
+     )
     }
   }
 ]
