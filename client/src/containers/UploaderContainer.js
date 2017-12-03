@@ -2,20 +2,26 @@ import React, { Component } from 'react'
 import Settings from '../settings'
 import cos from '../lib/qcloud'
 import Uploader from '../components/Uploader'
-import { getCurrentDir } from '../redux/reducers'
+import { getCurrentDir, getProgressBars } from '../redux/reducers'
 import { connect } from 'react-redux'
-import { addFile } from '../redux/actions'
+import ProgressBars from '../components/ProgressBars'
+import { addFile, addProgressBar, setProgressPercent } from '../redux/actions'
 
 class UploaderContainer extends Component {
   handleChange = (info) => {
     const { currentDir } = this.props    
     const file = info.file.originFileObj
+    this.props.addProgressBar(file)
     const key = `${currentDir}/${file.name}`
     const params = {
       Bucket: Settings.Bucket,
       Region: Settings.Region,
       Key: key,
-      Body: file
+      Body: file,
+      onProgress: progressData => {
+        const percent = Math.round(progressData.percent*100)
+        this.props.setProgressPercent(percent, file)
+      }
     }
 
     return new Promise (
@@ -35,16 +41,23 @@ class UploaderContainer extends Component {
   }
 
   render () {
+    const { progressBars } = this.props
     return (
       <div>
         <Uploader onChange={this.handleChange} />
+        <ProgressBars progressBars={progressBars} />
       </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  currentDir: getCurrentDir(state)
+  currentDir: getCurrentDir(state),
+  progressBars: getProgressBars(state)
 })
 
-export default connect(mapStateToProps, { addFile })(UploaderContainer)
+export default connect(mapStateToProps, {
+  addFile,
+  addProgressBar,
+  setProgressPercent
+})(UploaderContainer)

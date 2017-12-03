@@ -1,6 +1,9 @@
+import progressBars from './progressBars'
+
 const initState = {
   allFiles: [],
-  currentDir: ''
+  currentDir: '',
+  progressBars: []
 }
 
 const rootReducer = (state = initState, action) => {
@@ -21,7 +24,11 @@ const rootReducer = (state = initState, action) => {
         allFiles: [...state.allFiles, action.newFile]
       }
     default:
-      return state
+      return {
+        ...state,
+        progressBars: progressBars(state.progressBars, action)
+      }
+
   }
 }
 
@@ -42,6 +49,8 @@ export const getDirNames = state => {
 }
 
 export const getCurrentDir = state => state.currentDir
+
+export const getProgressBars = state => state.progressBars
 
 export const getCurrentDirFiles = state => {
   return getOnlyFiles(state).filter(
