@@ -1,32 +1,47 @@
 import React, { Component } from 'react'
 import Settings from '../settings'
 import cos from '../lib/qcloud'
+import Uploader from '../components/Uploader'
+import { getCurrentDir } from '../redux/reducers'
+import { connect } from 'react-redux'
 
 class UploaderContainer extends Component {
-  handleChange = (e) => {
-    const file = e.target.files[0]
+  handleChange = (info) => {
+    const { currentDir } = this.props
+    const file = info.file.originFileObj
     const params = {
       Bucket: Settings.Bucket,
       Region: Settings.Region,
-      Key: '/aa/zhang.txt',
+      Key: `${currentDir}/${file.name}`,
       Body: file
     }
-    cos.sliceUploadFile(params, (err, data) => {
-      if(err) {
-        console.log(err)
-      } else {
-        console.log(data)
-      }
-    })
+
+    return new Promise (
+      (resolve, reject) => {
+        cos.sliceUploadFile(params, (err, data) => {
+          if (err) {
+            reject(file.name)
+            console.log(err)
+          }else {
+            resolve(file.name)
+            console.log(data)
+         }
+        })
+       }
+    )
   }
 
   render () {
     return (
       <div>
-        <input type="file" onChange={ this.handleChange } />
+        <Uploader onChange={this.handleChange} />
       </div>
     )
   }
 }
 
-export default UploaderContainer
+const mapStateToProps = state => ({
+  currentDir: getCurrentDir(state)
+})
+
+export default connect(mapStateToProps)(UploaderContainer)
