@@ -2,7 +2,7 @@ import React from 'react'
 import './main.css'
 import FileTableContainer from '../containers/FileTableContainer'
 import DirMenuContainer from '../containers/DirMenuContainer'
-import UploaderContainer from '../components/UploaderContainer.js'
+import UploaderContainer from '../containers/UploaderContainer'
 import styled from 'styled-components'
 import { Layout } from 'antd'
 const { Header, Sider, Content } = Layout
